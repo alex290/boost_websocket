@@ -22,9 +22,6 @@ using namespace std;
 
 class BoostWebsock : public std::enable_shared_from_this<BoostWebsock>
 {
-    tcp::resolver resolver_;
-    websocket::stream<beast::ssl_stream<beast::tcp_stream>> ws_;
-
 public:
     explicit BoostWebsock(net::io_context &ioc, ssl::context &ctx);
     ~BoostWebsock();
@@ -40,6 +37,8 @@ private:
     beast::flat_buffer buffer_;
     string host_;
     string text_;
+    tcp::resolver resolver_;
+    websocket::stream<beast::ssl_stream<beast::tcp_stream>> ws_;
 
     // Report a failure
     void fail(beast::error_code ec, char const *what);
