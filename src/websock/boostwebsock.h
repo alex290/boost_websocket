@@ -40,6 +40,8 @@ private:
     tcp::resolver resolver_;
     websocket::stream<beast::ssl_stream<beast::tcp_stream>> ws_;
 
+    bool closed;
+
     // Report a failure
     void fail(beast::error_code ec, char const *what);
 

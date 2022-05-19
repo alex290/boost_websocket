@@ -15,18 +15,21 @@ void BoostWebsock::run(char const *host, char const *port, char const *text)
     // Save these for later
     host_ = host;
     text_ = text;
+    closed = false;
 
     // Look up the domain name
     resolver_.async_resolve(host, port, beast::bind_front_handler(&BoostWebsock::on_resolve, shared_from_this()));
 }
 
-void BoostWebsock::runTwoo() {
+void BoostWebsock::runTwoo()
+{
     ws_.async_read(buffer_, beast::bind_front_handler(&BoostWebsock::on_read, shared_from_this()));
 }
 
 // Закрытие сокета
 void BoostWebsock::closeSock()
 {
+    closed = true;
     // Close the WebSocket connection
     ws_.async_close(websocket::close_code::normal, beast::bind_front_handler(&BoostWebsock::on_close, shared_from_this()));
 }
@@ -121,19 +124,22 @@ void BoostWebsock::on_write(beast::error_code ec, size_t bytes_transferred)
 void BoostWebsock::on_read(beast::error_code ec, size_t bytes_transferred)
 {
     boost::ignore_unused(bytes_transferred);
+    if (!closed)
+    {
 
-    if (ec)
-        return fail(ec, "read");
+        if (ec)
+            return fail(ec, "read");
 
-    string d = beast::buffers_to_string(buffer_.data());
-    signalData(d);
-    buffer_.clear();
+        string d = beast::buffers_to_string(buffer_.data());
+        signalData(d);
+        buffer_.clear();
 
-    // Close the WebSocket connection
-    // ws_.async_close(websocket::close_code::normal, beast::bind_front_handler(&session::on_close, shared_from_this()));
+        // Close the WebSocket connection
+        // ws_.async_close(websocket::close_code::normal, beast::bind_front_handler(&BoostWebsock::on_close, shared_from_this()));
 
-    // Read a message into our buffer
-    ws_.async_read(buffer_, beast::bind_front_handler(&BoostWebsock::on_read, shared_from_this()));
+        // Read a message into our buffer
+        ws_.async_read(buffer_, beast::bind_front_handler(&BoostWebsock::on_read, shared_from_this()));
+    }
 }
 
 void BoostWebsock::on_close(beast::error_code ec)

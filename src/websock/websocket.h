@@ -26,14 +26,13 @@ private:
     string host_;
     string port_;
     string text_;
-    std::queue<std::future<void>> q;
+    future<void> q;
     bool closed;
 
     net::io_context ioc;
     net::executor_work_guard<decltype(ioc.get_executor())> work{ioc.get_executor()};
 
     void asyncStart();
-    void clearSocket();
 
     void localData(string event);  // Отправка сигнала
     void localClose();             // Закрытие сокета

@@ -7,8 +7,7 @@ WebSocket::WebSocket()
 
 WebSocket::~WebSocket()
 {
-    ioc.stop();
-    clearSocket();
+    // ioc.stop();
 }
 void WebSocket::startSocket(string host, string port, string text)
 {
@@ -16,8 +15,8 @@ void WebSocket::startSocket(string host, string port, string text)
     port_ = port;
     text_ = text;
 
-    q.push(std::async(std::launch::async, [this]
-                      { this->asyncStart(); }));
+    q = std::async(std::launch::async, [this]
+                      { this->asyncStart(); });
 }
 
 void WebSocket::localData(string event)
@@ -28,7 +27,6 @@ void WebSocket::localData(string event)
 void WebSocket::localClose()
 {
     signalClose();
-    clearSocket();
 }
 
 void WebSocket::localError(string event)
@@ -96,8 +94,3 @@ void WebSocket::closeSocket()
     ioc.stop();
 }
 
-void WebSocket::clearSocket()
-{
-    while (!q.empty())
-        q.pop();
-}

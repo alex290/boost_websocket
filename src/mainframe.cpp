@@ -18,6 +18,7 @@ MainFrame::MainFrame() : wxFrame(NULL, wxID_ANY, "Websocket")
 
 MainFrame::~MainFrame()
 {
+    websocket->closeSocket();
 }
 void MainFrame::readData(string data)
 {
