@@ -33,13 +33,13 @@
     // Закрытие
     void MainFrame::eventClose()
     {
-        std::cout << "CLOSE EVENT" << std::endl;
+        cout << "CLOSE EVENT" << std::endl;
     }
     
     // получаем ошибки
     void MainFrame::eventError(string data)
     {
-        std::cout << "Error EVENT " << data << std::endl;
+        cout << "Error EVENT " << data << std::endl;
     }
 
 Вебсокет работает в асинхронном режиме. На каждый сокет отдельный объект.. Если использовать несколько сокетов.. Запускать через вектор объектов
