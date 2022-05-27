@@ -52,9 +52,15 @@ void BoostWSListener::do_accept()
 void BoostWSListener::on_accept(beast::error_code ec, tcp::socket socket)
 {
     if (ec)
+    {
         fail(ec, "accept");
-    else // Создайте сеанс и запустите его
-        std::make_shared<BoostWSSession>(std::move(socket), ctx_)->run();
+    }
+    else
+    {
+        // Создайте сеанс и запустите его
+        cout << "New Seaseon" << endl;
+        make_shared<BoostWSSession>(move(socket), ctx_)->run();
+    }
 
     // Принять другое соединение
     do_accept();

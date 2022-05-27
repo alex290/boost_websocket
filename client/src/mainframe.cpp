@@ -3,7 +3,7 @@
 MainFrame::MainFrame() : wxFrame(NULL, wxID_ANY, "Websocket Client")
 {
     websocket = new WebSocket();
-    websocket->startSocket("fstream.binance.com", "443", "/ws/btcusdt@kline_15m");
+    websocket->startSocket("127.0.0.1", "8080", "");
 
     // Подключаем сигнал к фукции
     websocket->signalData = [&, this](string dat)

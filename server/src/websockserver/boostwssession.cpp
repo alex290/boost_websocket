@@ -1,6 +1,6 @@
 #include "boostwssession.h"
 
-BoostWSSession::BoostWSSession(tcp::socket &&socket, ssl::context &ctx) : ws_(std::move(socket), ctx)
+BoostWSSession::BoostWSSession(tcp::socket &&socket, ssl::context &ctx) : ws_(move(socket), ctx)
 {
 }
 
@@ -17,7 +17,7 @@ void BoostWSSession::run()
 void BoostWSSession::on_run()
 {
     // Установить timeout.
-    beast::get_lowest_layer(ws_).expires_after(std::chrono::seconds(30));
+    beast::get_lowest_layer(ws_).expires_after(chrono::seconds(30));
 
     // Выполните установление связи SSL
     ws_.next_layer().async_handshake(ssl::stream_base::server, beast::bind_front_handler(&BoostWSSession::on_handshake, shared_from_this()));
@@ -37,7 +37,7 @@ void BoostWSSession::on_handshake(beast::error_code ec)
 
     // Установите декоратор для изменения сервера установление связи
     ws_.set_option(websocket::stream_base::decorator([](websocket::response_type &res)
-                                                     { res.set(http::field::server, std::string(BOOST_BEAST_VERSION_STRING) + " websocket-server-async-ssl"); }));
+                                                     { res.set(http::field::server, string(BOOST_BEAST_VERSION_STRING) + " websocket-server-async-ssl"); }));
 
     // Примите установление связи websocket
     ws_.async_accept(beast::bind_front_handler(&BoostWSSession::on_accept, shared_from_this()));
@@ -58,7 +58,7 @@ void BoostWSSession::do_read()
     ws_.async_read(buffer_, beast::bind_front_handler(&BoostWSSession::on_read, shared_from_this()));
 }
 
-void BoostWSSession::on_read(beast::error_code ec, std::size_t bytes_transferred)
+void BoostWSSession::on_read(beast::error_code ec, size_t bytes_transferred)
 {
     boost::ignore_unused(bytes_transferred);
 
@@ -74,7 +74,7 @@ void BoostWSSession::on_read(beast::error_code ec, std::size_t bytes_transferred
     ws_.async_write(buffer_.data(), beast::bind_front_handler(&BoostWSSession::on_write, shared_from_this()));
 }
 
-void BoostWSSession::on_write(beast::error_code ec, std::size_t bytes_transferred)
+void BoostWSSession::on_write(beast::error_code ec, size_t bytes_transferred)
 {
     boost::ignore_unused(bytes_transferred);
 

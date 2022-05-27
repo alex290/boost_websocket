@@ -4,7 +4,7 @@
 #include "boostwssession.h"
 
 // Принимает входящие подключения и запускает сеансы
-class BoostWSListener : public std::enable_shared_from_this<BoostWSListener>
+class BoostWSListener : public enable_shared_from_this<BoostWSListener>
 {
 public:
     BoostWSListener(net::io_context &ioc, ssl::context &ctx, tcp::endpoint endpoint);
