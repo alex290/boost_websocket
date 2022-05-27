@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20.0)
-project(WebSocetClient VERSION 0.1.0)
+project(WebSocetServer VERSION 0.1.0)
 
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-O3") # Компиляция больших файлов
 set(CMAKE_CXX_STANDARD 17) 
@@ -7,8 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 IF (WIN32)
-    set(wxWidgets_ROOT_DIR "c:/wxwidgets/3.1.6tdm")
-    set(wxWidgets_LIB_DIR "c:/wxwidgets/3.1.6tdm/lib/gcc1030TDM_x64_dll")
+    set(wxWidgets_ROOT_DIR "c:/wxwidgets/3.1.7")
+    set(wxWidgets_LIB_DIR "c:/wxwidgets/3.1.7/lib/gcc_x64_dll")
     set(BOOST_ROOT "c:/devel/boost")
     set(BOOST_INCLUDEDIR "c:/devel/boost/include/boost")
 ENDIF()
@@ -30,7 +30,7 @@ include(${wxWidgets_USE_FILE})
 
 file(GLOB project
     src/*
-    src/websock/*
+    src/websockserver/*
 )
 add_executable(${PROJECT_NAME} ${project})
 

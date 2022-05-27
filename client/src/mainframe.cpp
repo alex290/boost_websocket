@@ -1,6 +1,6 @@
 #include "mainframe.h"
 
-MainFrame::MainFrame() : wxFrame(NULL, wxID_ANY, "Websocket")
+MainFrame::MainFrame() : wxFrame(NULL, wxID_ANY, "Websocket Client")
 {
     websocket = new WebSocket();
     websocket->startSocket("fstream.binance.com", "443", "/ws/btcusdt@kline_15m");
